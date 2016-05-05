@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/wzhao1/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/17.0/9c6ef172e8de35fd8d4d8783e4821e57cdef7445/guava-17.0.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="9c6ef172e8de35fd8d4d8783e4821e57cdef7445">
+        <dex dex="/Users/wzhao1/Documents/zwxAccenture/workplace/MyApplication/app/build/intermediates/pre-dexed/debug/guava-17.0_d2638c147b4997459526c4000c43f74c7ae4cada.jar" />
+    </item>
+
+</items>
