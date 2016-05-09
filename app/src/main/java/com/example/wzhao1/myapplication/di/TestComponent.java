@@ -1,7 +1,9 @@
 package com.example.wzhao1.myapplication.di;
 
-import com.example.wzhao1.myapplication.activity.MainActivity;
+import com.example.wzhao1.myapplication.activity.NfcBaseActivity;
 import com.example.wzhao1.myapplication.manager.MainActivityManager;
+import com.example.wzhao1.myapplication.manager.NfcManager;
+import com.squareup.otto.Bus;
 
 import javax.inject.Singleton;
 
@@ -15,7 +17,11 @@ import dagger.Module;
 @Component(modules = {TestAppModule.class})
 public interface TestComponent {
 
-    void inject(MainActivity mainActivity);
+    void inject(NfcBaseActivity nfcBaseActivity);
 
     MainActivityManager getMainActivityManager();
+
+    NfcManager getNfcManager();
+
+    Bus getBus();
 }

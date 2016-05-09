@@ -1,18 +1,33 @@
-# Gradle files
-.gradle/
-build/
+# built application files
+*.apk
+*.ap_
 
-# Android Studio files
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+build/
+.apt_generated/
+
+# Local configuration file (sdk path, etc)
 local.properties
 *.iml
 .idea/
 
+.settings/
+
 # Mac OS X clutter
 *.DS_Store
+.gradle
 
-# Windows clutter
-Thumbs.db
+# Proguard files
 seeds.txt
 unused.txt
 
-newrelic.properties
+# Merging files
+*.orig
