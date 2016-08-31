@@ -4,30 +4,30 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
+import android.nfc.tech.MifareClassic;
+import android.nfc.tech.NfcA;
 import android.nfc.tech.NfcF;
 import android.nfc.tech.NfcV;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import com.example.wzhao1.myapplication.MyApplication;
 import com.example.wzhao1.myapplication.R;
 import com.example.wzhao1.myapplication.di.TestComponent;
 import com.example.wzhao1.myapplication.fragment.FragmentAction;
-import com.example.wzhao1.myapplication.fragment.MainFragment;
 import com.example.wzhao1.myapplication.fragment.QueryFragment;
 import com.example.wzhao1.myapplication.manager.MainActivityManager;
 import com.example.wzhao1.myapplication.manager.NfcManager;
-import com.example.wzhao1.myapplication.manager.NfcManagerImpl;
 import com.example.wzhao1.myapplication.util.navigator.NavigationEntry;
 import com.example.wzhao1.myapplication.util.navigator.Navigator;
 import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 public class NfcBaseActivity extends FragmentActivity implements FragmentAction {
     protected TestComponent testComponent;
@@ -40,7 +40,7 @@ public class NfcBaseActivity extends FragmentActivity implements FragmentAction 
 
     public String[][] TECHLISTS = new String[][] {
         { IsoDep.class.getName() },
-        { NfcV.class.getName() }, { NfcF.class.getName() }, };
+        { NfcV.class.getName() }, { NfcF.class.getName() }, {MifareClassic.class.getName()} };
 
     public IntentFilter[] FILTERS;
 
@@ -70,11 +70,39 @@ public class NfcBaseActivity extends FragmentActivity implements FragmentAction 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        String[] techList = tag.getTechList();
+        short sak = NfcA.get(tag).getSak();
+        Object hasTech = tagMethod(tag, "hasTech", 8);
+        MifareClassic mifareClassic = MifareClassic.get(tag);
+//        mifareClassic.getBlockCount();
         nfcManager.setIsoDep(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG));
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_layout);
         if (fragment instanceof QueryFragment) {
             ((QueryFragment) fragment).onNewIntent();
         }
+    }
+
+    public Object tagMethod(Tag tag, String methodName, int var) {
+        Object telephonyInterface = null;
+        try {
+            // Get the getITelephony() method
+            Class classTag = Class.forName(tag.getClass().getName());
+            Method methodGetITelephony;
+//            if (var == null) {
+//                methodGetITelephony = classTag.getDeclaredMethod(methodName);
+//                methodGetITelephony.setAccessible(true);
+//                telephonyInterface = methodGetITelephony.invoke(tag);
+//            }else {
+                methodGetITelephony = classTag.getDeclaredMethod(methodName, Integer.class);
+                methodGetITelephony.setAccessible(true);
+                telephonyInterface = methodGetITelephony.invoke(tag, var);
+//            }
+        } catch (Exception ex) { // Many things can go wrong with reflection calls
+            Log.d("zwx","PhoneStateReceiver **" + ex.toString());
+            return telephonyInterface;
+        }
+        return telephonyInterface;
     }
 
     @Override
