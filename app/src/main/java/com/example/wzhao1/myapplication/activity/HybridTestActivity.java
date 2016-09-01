@@ -45,6 +45,7 @@ public class HybridTestActivity extends Activity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //Intercept the scheme then call native methods.
                 if (url.startsWith("hybridsample")) {
                     int indexDoubleSlash = url.indexOf("//") + 2;
                     int indexSlashQustionMark = url.indexOf("/?");

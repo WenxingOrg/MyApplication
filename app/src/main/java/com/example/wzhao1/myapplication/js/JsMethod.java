@@ -6,6 +6,8 @@ import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 /**
+ * Defines native method for js.
+ *
  * Created by wzhao1 on 16/8/31.
  */
 public class JsMethod implements Runnable{
@@ -33,6 +35,9 @@ public class JsMethod implements Runnable{
 
     }
 
+    /**
+     * Retrieve javathread into main thread.
+     */
     private void sendBackJsBridge() {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(this);
