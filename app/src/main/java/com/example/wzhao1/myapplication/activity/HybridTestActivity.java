@@ -52,7 +52,7 @@ public class HybridTestActivity extends Activity {
                     int indexCallIdParam = url.indexOf("callID") + 7;
                     String methodName = url.substring(indexDoubleSlash, indexSlashQustionMark);
                     String callId = url.substring(indexCallIdParam);
-                    jsBridge.fetchParameter(methodName, callId);
+                    jsBridge.callNativeMethod(methodName, callId);
                     return true;
                 }
                 return super.shouldOverrideUrlLoading(view, url);

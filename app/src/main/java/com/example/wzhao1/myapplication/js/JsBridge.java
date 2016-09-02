@@ -22,11 +22,11 @@ public class JsBridge {
      * @param method
      * @param callId
      */
-    public void fetchParameter(String method, String callId) {
+    public void callNativeMethod(String method, String callId) {
         String jsScript = "javascript:";
         jsScript += "var androidCallId=\"" + callId + "\";";
         jsScript += "var androidParam = zshybrid.fetchParameter(androidCallId);";
-        jsScript += "window.androidNative." + method + "(androidParam, androidCallId);";
+        jsScript += "window.androidNative.callNativeMethod(androidParam, \""+method+"\");";
         webView.loadUrl(jsScript);
     }
 

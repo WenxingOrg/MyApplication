@@ -21,18 +21,20 @@ public class JsMethod implements Runnable{
     }
 
     @JavascriptInterface
-    public void InterfaceA(String param, String callId) {
+    public void callNativeMethod(String param, String method) throws NoSuchMethodException {
         //TODO java do something then give callback to js.
-        Log.v(TAG, "call interfaceA successfully!! --> then callback");
-        sendBackJsBridge();
-    }
-
-    @JavascriptInterface
-    public void InterfaceB(String param, String callId) {
-        //TODO java do something then give callback to js.
-        Log.v(TAG, "call interfaceB successfully!! --> then callback");
-        sendBackJsBridge();
-
+        switch (method) {
+            case "InterfaceA":
+                Log.v(TAG, "call interfaceA successfully!! --> then callback");
+                sendBackJsBridge();
+                break;
+            case "InterfaceB":
+                Log.v(TAG, "call interfaceB successfully!! --> then callback");
+                sendBackJsBridge();
+                break;
+            default:
+                throw new NoSuchMethodException("Method not defined");
+        }
     }
 
     /**
